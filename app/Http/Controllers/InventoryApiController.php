@@ -26,18 +26,23 @@ class InventoryApiController extends Controller
     public function productAdd(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $product = $user->products()->create(
-            [
-                'name' => $request->input('name'),
-                'category_id' => $request->input('category_id')
-            ]
-        );
-        $product->categories()->attach($request->input('category_id'));
+        $productData = $request->all();
+        foreach($productData['products'] as $productInfo) {
+            $product = $user->products()->create(
+                [
+                    'name' => $productInfo['name'],
+                    'category_id' => $productInfo['category_id']
+                ]
+            );
+            $product->categories()->attach($productInfo['category_id']);
+        }
+
+
 
         return response()->json(
             [
                 'message' => 'Product added successfully',
-                'product' => $product,
+                // 'product' => $productInfo,
             ]
         );
     }
