@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('user/{id}/product-stats',[InventoryApiController::class,'index'])->name('user.product.stats');
+Route::post('product-add/user/{id}',[InventoryApiController::class,'productAdd'])->name('product.add');
